@@ -1,0 +1,375 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【浙大数据结构】树 | 星の夜</title><meta name="author" content="kyzenzu"><meta name="copyright" content="kyzenzu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="树 基本术语 结点的度(Degree)：结点的子树个数 树的度：树的所有结点中最大的度数 叶结点(Leaf)：度为0的结点 父结点(Parent)：有子树的结点是其子树根结点的父结点 子结点(Child) 兄弟结点(Sibling) 路径和路径长度：从结点n1到nk的路径为一个结点序列n1，n2，… ，nk， ni是ni+1的父结点。路径所包含的&#x3D;&#x3D;个数&#x3D;&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【浙大数据结构】树">
+<meta property="og:url" content="http://example.com/2023/02/08/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%A0%91/index.html">
+<meta property="og:site_name" content="星の夜">
+<meta property="og:description" content="树 基本术语 结点的度(Degree)：结点的子树个数 树的度：树的所有结点中最大的度数 叶结点(Leaf)：度为0的结点 父结点(Parent)：有子树的结点是其子树根结点的父结点 子结点(Child) 兄弟结点(Sibling) 路径和路径长度：从结点n1到nk的路径为一个结点序列n1，n2，… ，nk， ni是ni+1的父结点。路径所包含的&#x3D;&#x3D;个数&#x3D;&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/05.jpg">
+<meta property="article:published_time" content="2023-02-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-01T06:39:02.591Z">
+<meta property="article:author" content="kyzenzu">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover/05.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【浙大数据结构】树",
+  "url": "http://example.com/2023/02/08/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%A0%91/",
+  "image": "http://example.com/img/cover/05.jpg",
+  "datePublished": "2023-02-07T16:00:00.000Z",
+  "dateModified": "2026-01-01T06:39:02.591Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kyzenzu",
+      "url": "http://kyzenzu.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2023/02/08/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%A0%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'FancyBox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【浙大数据结构】树',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background/01.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/05.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/loading.gif" data-original="/img/navlogo.png" alt="Logo"><span class="site-name">星の夜</span></a><a class="nav-page-title" href="/"><span class="site-name">【浙大数据结构】树</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【浙大数据结构】树</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-07T16:00:00.000Z" title="发表于 2023-02-08 00:00:00">2023-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-01T06:39:02.591Z" title="更新于 2026-01-01 14:39:02">2026-01-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><hr>
+<h4 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h4><ol>
+<li>结点的度(Degree)：结点的子树个数</li>
+<li>树的度：树的所有结点中最大的度数</li>
+<li>叶结点(Leaf)：度为0的结点</li>
+<li>父结点(Parent)：有子树的结点是其子树根结点的父结点</li>
+<li>子结点(Child)</li>
+<li>兄弟结点(Sibling)</li>
+<li>路径和路径长度：从结点n<del>1</del>到n<del>k</del>的路径为一个结点序列n<del>1</del>，n<del>2</del>，… ，n<del>k</del>， n<del>i</del>是n<del>i+1</del>的父结点。路径所包含的&#x3D;&#x3D;个数&#x3D;&#x3D;为路径的长度</li>
+<li>祖先结点(Ancestor)</li>
+<li>子孙结点(Descendant)</li>
+<li>结点的层次(Level)：规定根结点在1层，其它任一结点的层数是其父结点的层数加1</li>
+<li>树的深度(Depth)：规定根结点的深度为0，树中所有结点中最大层次是这棵树的深度，深度的单位为1条路径长度</li>
+<li>树的高度(Height)：规定最低叶结点的高度为0，高度的单位为1条路径长度<br><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/00.png" alt="00"></li>
+</ol>
+<h4 id="树的实现"><a href="#树的实现" class="headerlink" title="树的实现"></a>树的实现</h4><p>儿子-兄弟表示法</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/01.png" alt="01"></p>
+<h4 id="特殊二叉树"><a href="#特殊二叉树" class="headerlink" title="特殊二叉树"></a>特殊二叉树</h4><p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/02.png" alt="00"></p>
+<h4 id="二叉树的几个重要性质"><a href="#二叉树的几个重要性质" class="headerlink" title="二叉树的几个重要性质"></a>二叉树的几个重要性质</h4><ul>
+<li>一个二叉树第 <em>i</em> 层的最大结点数为：2^i-1^, i &gt;&#x3D; 1</li>
+<li>深度为 <em>k</em> 的二叉树有最大结点总数：2^k^-1, k &gt;&#x3D; 1    2^0^ + 2^1^ + 2^2^ + … + 2^k-1^ &#x3D; 2^k^ - 1 </li>
+<li>对任何非空二叉树T，若n<del>0</del>表示叶结点的个数、n<del>2</del>是度为2的非叶结点个数，那么两者满足关系n<del>0</del> &#x3D; n<del>2</del> + 1   由路径（边）的个数为 n<del>0</del> + n<del>1</del> + n<del>2</del> - 1 &#x3D; 2n<del>2</del> + n<del>1</del> 得出</li>
+</ul>
+<h4 id="二叉树的抽象数据类型定义"><a href="#二叉树的抽象数据类型定义" class="headerlink" title="二叉树的抽象数据类型定义"></a>二叉树的抽象数据类型定义</h4><p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/03.png" alt="00"></p>
+<h4 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h4><p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/04.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/05.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/06.png" alt="00"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>* <span class="title">BinTree</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> BinTree Position;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>&#123;</span></span><br><span class="line">    ElementType Data;</span><br><span class="line">    BinTree Left;</span><br><span class="line">    BinTree Right;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h4><p>先序遍历</p>
+<p>遍历过程为：</p>
+<ol>
+<li>访问根结点；</li>
+<li>先序遍历其左子树；</li>
+<li>先序遍历其右子树</li>
+<li><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/07.png" alt="00"></li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">PreOrderTraversal</span><span class="params">(BinTree BT)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(BT)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, BT-&gt;Data);</span><br><span class="line">        PostOrderTraversal(BT-&gt;Left);</span><br><span class="line">        PostOrderTraversal(BT-&gt;Right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>中序遍历<br><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/08.png" alt="00"></p>
+<p>后序遍历<br><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/09.png" alt="00"></p>
+<h4 id="中序遍历非递归遍历算法"><a href="#中序遍历非递归遍历算法" class="headerlink" title="中序遍历非递归遍历算法"></a>中序遍历非递归遍历算法</h4><p>基本思路：使用&#x3D;&#x3D;栈&#x3D;&#x3D;</p>
+<ul>
+<li>遇到一个结点，就把它压栈，并去遍历它的左子树</li>
+<li>当左子树遍历结束后，从栈顶弹出这个结点并访问它；</li>
+<li>然后按其右指针再去中序遍历该结点的右子树</li>
+</ul>
+<p>代码示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">InOrderTraversal</span><span class="params">(BinTree BT)</span></span><br><span class="line">&#123;</span><br><span class="line">	BinTree T = BT;</span><br><span class="line">    Stack S = CreateStack(MaxSize);</span><br><span class="line">    <span class="keyword">while</span>(T || !IsEmpty(S))&#123;  <span class="comment">//当T = NULL时开始处理栈顶元素</span></span><br><span class="line">		<span class="keyword">while</span>(T)&#123;   <span class="comment">//一直向左将沿途结点压入堆栈</span></span><br><span class="line">            Push(S, T);</span><br><span class="line">            T = T-&gt;Left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!IsEmpty(S))&#123;  </span><br><span class="line">            T = Pop(S);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,T-&gt;Data);</span><br><span class="line">            T = T-&gt;Right;  <span class="comment">//左边走完了，看看右边有没有</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h4><p>二叉树遍历的核心问题：二位结构的线性化</p>
+<ul>
+<li><p>从结点访问其左右儿子结点</p>
+</li>
+<li><p>访问做儿子后，右儿子结点怎么办？</p>
+<p>需要一个存储结构保存暂时不访问的结点</p>
+<p>存储结构：堆栈、队列</p>
+</li>
+<li><p>队列实现：遍历从根结点开始，首先将根结点入队，然后开始执行循环：结点出队、访问该该结点、将其左右儿子入队<br><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/10.png" alt="00"></p>
+</li>
+</ul>
+<p>代码示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">LevelOrderTraversal</span><span class="params">(BinTree BT)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(!BT)	<span class="keyword">return</span>; <span class="comment">//若是空树则直接返回</span></span><br><span class="line">    Queue Q = CreateQueue(MaxSize);</span><br><span class="line">    BinTree T;</span><br><span class="line">    EnQueue(Q, BT);</span><br><span class="line">    <span class="keyword">while</span>(!IsEmpty(Q))&#123;</span><br><span class="line">		T = DeQueue(Q);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, T-&gt;Data);</span><br><span class="line">        <span class="keyword">if</span>(T-&gt;Left)	EnQueue(T-&gt;Left);</span><br><span class="line">        <span class="keyword">if</span>(T-&gt;Right)	EnQueue(T-&gt;Right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="遍历应用例子"><a href="#遍历应用例子" class="headerlink" title="遍历应用例子"></a>遍历应用例子</h4><p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/11.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/12.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/13.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/14.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/15.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/16.png" alt="00"></p>
+<hr>
+<h4 id="什么是二叉搜索树"><a href="#什么是二叉搜索树" class="headerlink" title="什么是二叉搜索树"></a>什么是二叉搜索树</h4><p>二叉搜索树（BST， Binary Search Tree）,也称二叉排序树或二叉查找树</p>
+<p>二叉搜索树：一棵二叉树，可以为空；如果不为空，满足以下性质：</p>
+<ol>
+<li>非空左子树的所有键值小于其根结点的键值</li>
+<li>非空右子树的所有键值大于其根结点的键值</li>
+<li>左、右子树都是二叉搜索树</li>
+</ol>
+<h4 id="二叉搜索树操作的特别函数"><a href="#二叉搜索树操作的特别函数" class="headerlink" title="二叉搜索树操作的特别函数"></a>二叉搜索树操作的特别函数</h4><p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/17.png" alt="00"></p>
+<p>Find</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Position <span class="title function_">Find</span><span class="params">(ElementType X, BinTree BST)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(!BST) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(X == BST-&gt;Data)&#123;</span><br><span class="line">        <span class="keyword">return</span> BST;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(X &lt; BST-&gt;Data)&#123;</span><br><span class="line">        <span class="keyword">return</span> Find(X, BST-&gt;Left);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	    <span class="keyword">return</span> Find(X, BST-&gt;Right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/18.png" alt="00"></p>
+<p>Insert</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">BinTree <span class="title function_">Insert</span><span class="params">(ElementType X, BinTree BST)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!BST)&#123;</span><br><span class="line">        Position BT = (Position)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> TreeNode));</span><br><span class="line">        BT-&gt;Data = X;</span><br><span class="line">        BT-&gt;Left = BT-&gt;Right = <span class="literal">NULL</span>;</span><br><span class="line">        BST = BT;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(X &lt; BST-&gt;Data)&#123;</span><br><span class="line">        BST-&gt;Left = Insert(X, BST-&gt;Left);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        BST-&gt;Right = Insert(X, BST-&gt;Right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> BST;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>二叉搜索树的删除</p>
+<p>考虑三种情况：</p>
+<ul>
+<li><p>删除叶结点：直接删除，并修改其父结点指针—置为NULL</p>
+</li>
+<li><p>删除的结点只有一个子结点：将其父结点的指针指向要删除结点的孩子结点，用被删除结点的孩子顶替被删除结点<br><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/19.png" alt="00"></p>
+</li>
+<li><p>删除的结点有左、右两棵子树：</p>
+<p>用另一结点代替被删结点：&#x3D;&#x3D;右子树&#x3D;&#x3D;的&#x3D;&#x3D;最小&#x3D;&#x3D;元素 或者 &#x3D;&#x3D;左子树&#x3D;&#x3D;的&#x3D;&#x3D;最大&#x3D;&#x3D;元素</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/20.png" alt="00"></p>
+</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/21.png" alt="00"></p>
+<p>Delete</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">BinTree <span class="title function_">Delete</span><span class="params">(ElementType X, BinTree BST)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(BST == <span class="literal">NULL</span>)	<span class="built_in">printf</span>(<span class="string">&quot;未找到删除元素&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(X &lt; BST-&gt;Data)&#123;</span><br><span class="line">        BST-&gt;Left = Delete(X, BST-&gt;Left);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(X &gt; BST-&gt;Right)&#123;</span><br><span class="line">		BST-&gt;Right = Delete(X, BST-&gt;Right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(BST-&gt;Left &amp;&amp; BST-&gt;Right)&#123;</span><br><span class="line">            Position T = FindMin(BST-&gt;Right)<span class="comment">//查找右子树最小元素</span></span><br><span class="line">            BST-&gt;Data = T-&gt;Data;</span><br><span class="line">            BST-&gt;Right = Delete(T-&gt;Data, BST-&gt;Right); <span class="comment">//将问题转化为情况一或情况二</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123; <span class="comment">//被删除结点有一个或无子结点</span></span><br><span class="line">            Position T = BST;</span><br><span class="line">            <span class="keyword">if</span>(BST-&gt;Left)&#123;</span><br><span class="line">                 BST = BST-&gt;Left;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(BST-&gt;Right)&#123;</span><br><span class="line">                 BST = BST-&gt;Right;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                BST = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">free</span>(T);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> BST;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h4><p>平衡因子(Balanced Factor，简称BF)：BF(T) &#x3D; h<del>L</del> - h<del>R</del>，<br>其中 h<del>L</del>，h<del>R</del>，分别为T的左、右子树的高度.<br>&#x3D;&#x3D;平衡二叉树&#x3D;&#x3D;<br>空树u，或者<br>任一左右子树高度差的绝对值不超过1，即|BF(T)| &lt;&#x3D; 1</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/22.png" alt="00"></p>
+<p>平衡二叉树的高度</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/24.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/24.png" alt="00"></p>
+<p>####平衡二叉树的调整</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/25.png" alt="00"></p>
+<p>不平衡的“发现者”是Mar,”破坏者”Nov在发现者右子树的右边，因而叫&#x3D;&#x3D;RR插入&#x3D;&#x3D;，需要&#x3D;&#x3D;RR旋转（右单旋）&#x3D;&#x3D;</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/26.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/27.png" alt="00"></p>
+<p>不平衡的“发现者”是Mar,”破坏者”Apr在发现者左子树的左边，因而叫&#x3D;&#x3D;LL插入&#x3D;&#x3D;，需要&#x3D;&#x3D;LL旋转（左单旋）&#x3D;&#x3D;</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/28.png" alt="00"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/29.png" alt="00"></p>
+<p>不平衡的“发现者”是May,”破坏者”Jan在发现者左子树的右边，因而叫&#x3D;&#x3D;LR插入&#x3D;&#x3D;，需要&#x3D;&#x3D;LR旋转&#x3D;&#x3D;</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/30.png" alt="00"></p>
+<p>RL旋转</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/31.png" alt="00"></p>
+<h3 id="平衡二叉树的删除操作步骤"><a href="#平衡二叉树的删除操作步骤" class="headerlink" title="平衡二叉树的删除操作步骤"></a>平衡二叉树的删除操作步骤</h3><ol>
+<li>删除要删除的结点，方法同 <strong>二叉排序树的输出</strong> 一样，有三类情况<ul>
+<li>叶子结点</li>
+<li>只有一个子树的结点</li>
+<li>有左右子树的结点</li>
+</ul>
+</li>
+<li>从被删除的结点开始向上找最小不平衡子树（不平衡的<strong>发现者</strong>），注意如果被删除的结点是<strong>有左右子树的结点</strong>，则从实际被删除的那个“替罪羊”开始找。如果没有找到，那说明没有不平衡的情况</li>
+<li><u>从<strong>发现者</strong>开始</u>，找它高度最高的儿子，以及其高度最高的孙子</li>
+<li><u>高度度最高的孙子作为**“破坏者“<strong></u>，根据</strong>发现者<strong>和</strong>破坏者**的位置关系来确定调整关系（LL、RR、LR、RL）</li>
+<li>从被调整的最小不平衡字数开始，继续向上找最小不平衡字数，重复2的步骤。</li>
+</ol>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p><strong>二叉搜索树</strong>，为实现 O(log n) 的查找效率提供了思路，但是二叉搜索树的效率不稳定，如果插入顺序不对，就会使得查找效率又变为 O(n)</p>
+<p>于是有了 <strong>平衡二叉树(AVL)</strong>，平衡二叉树是二叉搜索树的升级版，它的旋转操作在每次插入操作后保证了树的高度控制在 O(log n) 级别，换句话说，平衡二叉树就是会自我调节高度的二叉搜索树</p>
+<p>但由于  <strong>平衡二叉树(AVL)</strong> 对树的高度太过严格（任一结点左右子树高度相差不大于1），导致其在插入过程中旋转操作太过频繁，使得插入和删除的效率太低。</p>
+<p>于是有了 <strong>红黑树</strong>，也是一颗<strong>二叉搜索树</strong>，它与<strong>平衡二叉树</strong>一样，都是具有特殊要求的<strong>二叉搜索树</strong>。</p>
+<p><strong>红黑树</strong>对树的高度要求不像<strong>平衡二叉树</strong>那样严格，因此其<strong>查找效率</strong>略逊于 <strong>平衡二叉树</strong>。</p>
+<p>但是<strong>红黑树</strong>在<strong>插入和删除</strong>操作时的旋转调整次数少于<strong>平衡二叉树</strong>，所以它的插入和删除效率更高。</p>
+<p>红黑树定义：</p>
+<ol>
+<li>首先是一棵二叉搜索树，即左子树都小于根结点，右子树都大于根结点</li>
+<li>根结点是黑色的</li>
+<li>所有叶子结点（其实是NULL结点）是黑色的</li>
+<li>所有红色结点的孩子都是黑色的，换句话说，从上到下，不存在连续的两个红色结点</li>
+<li>任一结点到任一叶子结点的路径上，黑色结点的数量相同（路径上黑色结点不包括起点，但包括终端叶结点）。<br> 是同一起点不同终点的路径上数量相等，不是说任意起点到任意终点的路径上数量都相等</li>
+</ol>
+<p>红黑树的插入操作：</p>
+<p>插入的结点如果是黑色，会破坏 <strong>黑路同</strong> 的性质，因此默认插入的颜色是红色。虽然也可能会破坏 <strong>不红红</strong> 的性质，但相比来说破坏程度更小</p>
+<ol>
+<li>插入红色结点，无非破坏的就是 <strong>根叶黑</strong> 与 <strong>不红红</strong> 的性质。<ol>
+<li>插入结点是根结点，破坏 <strong>根叶黑</strong> 性质，直接改为黑色即可</li>
+<li>破坏的 <strong>不红红</strong> 的性质，那么插入结点的父结点一定是红色，且爷爷结点一定是黑色，（红-红-黑）<br> 那么怎么调整就要看叔叔结点的颜色<ol>
+<li>如果叔叔节点是红色，<br> 父结点肯定要变成黑色，导致分支的黑色增加，那可以使另外一个分支，叔叔结点也变成黑色<br> 上面两个操作使得小整体的黑色增加，那就爷爷结点变成红色减少小整体的黑色，<br> 这又引发 <strong>根叶黑</strong> 或 <strong>不红红</strong> 的问题，那么就以爷爷结点为新插入结点，从头开始继续判定。<br> 那么操作很简单，<strong>父结点、爷爷结点、叔叔结点</strong> 三个结点都变色（颜色取反）；然后以爷爷结点为插入结点（cur），从最开始的第一步继续判定 cur 结点是否违反了 <strong>根叶黑</strong> 或 **不红红 **的性质。</li>
+<li>如果叔叔结点是黑色，不能增加叔叔分支的黑色<br> 那就只能旋转，改变树形结构<br> 怎么旋转还是按照平衡二叉树的旋转方法来<br> 旋转后肯定是红色结点为新的父结点，结构为（R&lt;-R-&gt;B）<br> 这样肯定不满足 <strong>黑路同</strong><br> 为了使两个分支黑色相等有两个选择（B&lt;-R-&gt;B）和 （R&lt;-B-&gt;R）<br> （B&lt;-R-&gt;B）会引发新的  <strong>根叶黑</strong> 或 **不红红 ** 问题<br> 所以选择 （R&lt;-B-&gt;R）<br> 反正记住新的父结点肯定要变色，剩下的让两边颜色对称就好了</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>从来没记过四种旋转<img src="/img/loading.gif" data-original="https://i0.hdslb.com/bfs/emote/c3043ba94babf824dea03ce500d0e73763bf4f40.png@40w_40h.avif" alt="[笑哭]">按我直观的感觉就是把涉及到的三个节点中间大小的做父亲节点，然后多出来的子树按照大小接到空余的位置就行了，以不变应万法。红黑树的变色也是因为需要符合其性质不得不这么操作：对于插入节点违反“不红红”的情况，显然祖父-&gt;父亲-&gt;插入节点一定构成黑(B)-红(R)-红(R)的形式，显然需要把某个红节点变黑。由于默认插入红结点，所以我们只能把父亲节点变黑。变黑会导致祖父-&gt;父亲这一路的树黑节点数+1，违反“黑路同”原则。所以我们必须想办法让另一路，也就是祖父-叔叔这一路的树黑节点数也+1。①如果叔叔节点是红的，那刚好就让他变黑。但是这还没完，注意到祖父节点为根的子树整体黑节点数+1了，这跟祖父节点的兄弟节点引导的子树违反“黑路同”原则，所以还得把祖父节点变红，平衡黑节点数。祖父节点变红后，等效于新插入了这个节点，所以重复判定即可。②如果叔叔节点是黑的，无法+1，那就只能旋转树，重新排列，把黑色的祖父节点安排到叔叔节点的那一路。同时因为祖父节点一定是三个节点中最小或最大的，不可能作为新的父亲节点，所以新父亲节点一定是红的（R&lt;-R-&gt;B），原祖父节点(B)必然在原叔叔那一路。显然左右子树黑节点数量不一样的，新父节点变黑，黑子节点变红即可解决（R&lt;-B-&gt;R）。说这么多就是想说这玩意不用背，记住红黑树的性质就可以推导出来<img src="/img/loading.gif" data-original="https://i0.hdslb.com/bfs/emote/c3043ba94babf824dea03ce500d0e73763bf4f40.png@40w_40h.avif" alt="[笑哭]"></p>
+</blockquote>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h3><p>B树也是一种排序树，但不是二叉的排序树，它是多叉的</p>
+<p>AVL树与红黑树虽然效率很高，但是它们所占用的内存很大，而且当数据量很大不得不存放在硬盘当中时，因为只有二叉的原因树高会非常高，使得查找次数很高。所以当数据量非常大的时候，二叉的排序树反而没有优势</p>
+<p>因此有了B树这种多叉的排序树</p>
+<p>不同教材对B树的叶子结点不一样，可以是最后一层结点，也可能以是NULL结点</p>
+<p>下面的叶子结点指的是最后一层结点，NULL结点就叫NULL结点</p>
+<p>B树的三个特点：</p>
+<ol>
+<li>平衡：为了达到像平衡二叉树那种左右平衡的效果，使得B树不会变成只有一边很长，另一边很短的样子，所有叶结点（不是NULL结点）都必须在同一层，即规定任何一个结点，其所有子树（包括NULL结点）的高度都要相同</li>
+<li>有序：一个结点不止包含一个元素，结点内有序。任一元素的左子树都小于它，右子树都大于它</li>
+<li>多路：也就是多叉，但是最多有几叉，最少有几叉都是有规定的<br> 对于 m 阶B树来说：<br> 一个结点<strong>最多</strong>有m个分支，有m个分支也就代表最多 m -1 个元素<br> 根节点<strong>最少</strong>有2个分支，1个元素<br> 其它结点（包括叶结点）<strong>最少</strong>要有 ⌈ m&#x2F;2 ⌉ 个分支，即最少要有 ⌈ m&#x2F;2 ⌉-1 个结点<br> 比如 5阶 B树，最多有 5 个分支 4 个结点<br> 除根结点允许只有 2 个分支 1 个结点外，其它结点必须至少有 3 个分支，2个结点</li>
+</ol>
+<p>B树的插入：</p>
+<ol>
+<li>B树的插入都是找好位置，插入叶结点中的</li>
+<li>插入到叶结点后，如果元素个数超过了最大个数，m - 1 + 1 也就是 m 个元素，就需要做分裂操作</li>
+<li>选中该结点的中间元素，即第 ⌈ m&#x2F;2 ⌉ 个元素，该元素沿着天线飞升至上一层结点，然后天线分裂到飞升后元素位置的两边，原来结点根据原来被选中元素的位置分裂成左右两棵子树，分别挂在分裂的两个天线上</li>
+<li>飞升后的结点的元素个数如果也超过了最大个数，即达到了 m 个元素，则重复刚才操作直至符合B树要求</li>
+</ol>
+<p>B树的删除：</p>
+<ol>
+<li>如果删除的是分支结点中元素，则从它的叶子结点中找到从数值上最靠近它的左右两个元素，选择一个覆盖它，然后删除那个叶子结点上的元素。所以最终都会归结到删除叶子结点上元素的问题</li>
+<li>如果删除的是叶子结点上的元素，由于 B树要求每个结点至少有 ⌈ m&#x2F;2 ⌉-1 个元素，因此如果元素删除后，叶子结点中的元素个数小于这个数造成下溢，就要做处理</li>
+<li>首先不管三七二十一，先从父结点上选择一个方向拽一个元素下来，然后看对应方向上的左右兄弟的元素个数够不够分一个出来，顶替原先父结点的元素</li>
+<li>如果够的话，很好，让一个正确的元素飞升上去，顶替原来父结点的位置</li>
+<li>如果不够的话，则只能进行合并处理，连带上刚刚拽下来的父结点的元素，选择对应方向上的兄弟结点合并</li>
+</ol>
+<h3 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+树"></a>B+树</h3><p>B树虽然存储起来很方便，在查找某一个数据的时候也很方便，但如果需要遍历每一个数据的时候就会非常麻烦，需要用中序遍历在结点之间来回穿梭，非常耗时</p>
+<p>B+树作为数据库的数据结构，在B树的基础上做了改进。</p>
+<p>它的核心只需要记住几点（主要是前面2条，后面几条是想到什么写什么的）：</p>
+<ol>
+<li>与B树不同的是，它的关键数据都存放在叶子结点上，也就是说所有的叶子节点上就存放了所有数据<br> 而其它非叶子结点不存在关键数据，它们仅仅只是作为查找关键数据的方向，或者说索引。非叶子结点中的元素存放的是其指向的下一层的结点中的值最大的元素</li>
+<li>与B树不同的是，B树结点的元素数等于指针数-1（因为指针分布在元素的空隙及其两侧），而B+树的元素数是等于指针数的（也就是说其指针是位于元素的正下方的）。举个例子，同样是 5 阶树，B树最多允许5叉4个元素，最少允许3叉2个元素；而B+树却允许5叉5个元素，最少允许3叉3个元素。</li>
+<li>B+树与B树一样，也要让所有NULL结点处在同一层</li>
+<li>因为B+树的所有数据都在叶子结点上了，所以可以通过一个指针一连串的顺序读取叶子结点读出所有元素</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="http://kyzenzu.github.io">kyzenzu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/08/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%A0%91/">http://example.com/2023/02/08/【浙大数据结构】树/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">星の夜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a></div><div class="post-share"><div class="social-share" data-image="/img/cover/05.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2023/02/10/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E5%A0%86/" title="【浙大数据结构】堆"><img class="cover" src="/img/loading.gif" data-original="/img/cover/01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【浙大数据结构】堆</div></div></div></a><a class="pagination-related  no-desc" href="/2023/02/05/C++%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%97%E9%9D%A2%E9%87%8F/" title="C++中字符串字面量"><img class="cover" src="/img/loading.gif" data-original="/img/cover/06.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">C++中字符串字面量</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/2023/02/10/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E5%A0%86/" title="【浙大数据结构】堆"><img class="cover" src="/img/loading.gif" data-original="/img/cover/01.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-10</div><div class="info-item-2">【浙大数据结构】堆</div></div></div></a><a class="pagination-related no-desc" href="/2023/02/28/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E5%9B%BE/" title="【浙大数据结构】图"><img class="cover" src="/img/loading.gif" data-original="/img/cover/18.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-28</div><div class="info-item-2">【浙大数据结构】图</div></div></div></a><a class="pagination-related no-desc" href="/2023/02/20/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/" title="【浙大数据结构】哈夫曼树"><img class="cover" src="/img/loading.gif" data-original="/img/cover/15.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-20</div><div class="info-item-2">【浙大数据结构】哈夫曼树</div></div></div></a><a class="pagination-related no-desc" href="/2023/02/28/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E5%9B%BE%E8%AE%BA%E7%AE%97%E6%B3%95/" title="【浙大数据结构】图论算法"><img class="cover" src="/img/loading.gif" data-original="/img/cover/13.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-28</div><div class="info-item-2">【浙大数据结构】图论算法</div></div></div></a><a class="pagination-related no-desc" href="/2023/02/20/%E3%80%90%E6%B5%99%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E9%9B%86%E5%90%88/" title="【浙大数据结构】集合"><img class="cover" src="/img/loading.gif" data-original="/img/cover/17.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-20</div><div class="info-item-2">【浙大数据结构】集合</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kyzenzu</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kyzenzu"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">没有最新通知</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%AD"><span class="toc-number">1.1.</span> <span class="toc-text">基本术语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%91%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">树的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">特殊二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%80%A7%E8%B4%A8"><span class="toc-number">1.4.</span> <span class="toc-text">二叉树的几个重要性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%8A%BD%E8%B1%A1%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.</span> <span class="toc-text">二叉树的抽象数据类型定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">二叉树的存储结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-number">1.7.</span> <span class="toc-text">二叉树的遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E9%9D%9E%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.8.</span> <span class="toc-text">中序遍历非递归遍历算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="toc-number">1.9.</span> <span class="toc-text">层序遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E5%BA%94%E7%94%A8%E4%BE%8B%E5%AD%90"><span class="toc-number">1.10.</span> <span class="toc-text">遍历应用例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91"><span class="toc-number">1.11.</span> <span class="toc-text">什么是二叉搜索树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E6%93%8D%E4%BD%9C%E7%9A%84%E7%89%B9%E5%88%AB%E5%87%BD%E6%95%B0"><span class="toc-number">1.12.</span> <span class="toc-text">二叉搜索树操作的特别函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.13.</span> <span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.14.</span> <span class="toc-text">平衡二叉树的删除操作步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-number">1.15.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91"><span class="toc-number">1.16.</span> <span class="toc-text">B-树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91-1"><span class="toc-number">1.17.</span> <span class="toc-text">B+树</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统"><img src="/img/loading.gif" data-original="/img/cover/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈工大操作系统"/></a><div class="content"><a class="title" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统">哈工大操作系统</a><time datetime="2025-12-28T16:00:00.000Z" title="发表于 2025-12-29 00:00:00">2025-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret"><img src="/img/loading.gif" data-original="/img/cover/08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="call和leave和ret"/></a><div class="content"><a class="title" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret">call和leave和ret</a><time datetime="2025-10-01T16:00:00.000Z" title="发表于 2025-10-02 00:00:00">2025-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式"><img src="/img/loading.gif" data-original="/img/cover/19.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux管理打开文件的方式"/></a><div class="content"><a class="title" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式">Linux管理打开文件的方式</a><time datetime="2025-07-31T16:00:00.000Z" title="发表于 2025-08-01 00:00:00">2025-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论"><img src="/img/loading.gif" data-original="/img/cover/18.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库系统概论"/></a><div class="content"><a class="title" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论">数据库系统概论</a><time datetime="2024-12-28T16:00:00.000Z" title="发表于 2024-12-29 00:00:00">2024-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程"><img src="/img/loading.gif" data-original="/img/cover/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Socket编程"/></a><div class="content"><a class="title" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程">Socket编程</a><time datetime="2024-11-30T16:00:00.000Z" title="发表于 2024-12-01 00:00:00">2024-12-01</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By kyzenzu</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="/"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body></html>

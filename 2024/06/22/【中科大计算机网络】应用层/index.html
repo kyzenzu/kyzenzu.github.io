@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【中科大计算机网络】应用层 | 星の夜</title><meta name="author" content="kyzenzu"><meta name="copyright" content="kyzenzu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从应用程序和应用程序的沟通方式来看，网络应用的架构可以分为一下集中类型：  客户-服务器模式（C&#x2F;S:client&#x2F;server） 对等模式（P2P:Peer to Peer） 混合体：客户-服务器和对等体系结构  分布式进程通信需要解决的问题 进程如何标识和寻址问题。怎么样标识自己和其它进程的不同，怎么样让别人找得到你。可以用IP和port来标识一个进程，这样的组合可以表示一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【中科大计算机网络】应用层">
+<meta property="og:url" content="http://example.com/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/index.html">
+<meta property="og:site_name" content="星の夜">
+<meta property="og:description" content="从应用程序和应用程序的沟通方式来看，网络应用的架构可以分为一下集中类型：  客户-服务器模式（C&#x2F;S:client&#x2F;server） 对等模式（P2P:Peer to Peer） 混合体：客户-服务器和对等体系结构  分布式进程通信需要解决的问题 进程如何标识和寻址问题。怎么样标识自己和其它进程的不同，怎么样让别人找得到你。可以用IP和port来标识一个进程，这样的组合可以表示一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/02.jpg">
+<meta property="article:published_time" content="2024-06-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-29T09:57:21.374Z">
+<meta property="article:author" content="kyzenzu">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover/02.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【中科大计算机网络】应用层",
+  "url": "http://example.com/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/",
+  "image": "http://example.com/img/cover/02.jpg",
+  "datePublished": "2024-06-21T16:00:00.000Z",
+  "dateModified": "2025-12-29T09:57:21.374Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kyzenzu",
+      "url": "http://kyzenzu.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'FancyBox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【中科大计算机网络】应用层',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background/01.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/02.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/loading.gif" data-original="/img/navlogo.png" alt="Logo"><span class="site-name">星の夜</span></a><a class="nav-page-title" href="/"><span class="site-name">【中科大计算机网络】应用层</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【中科大计算机网络】应用层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-21T16:00:00.000Z" title="发表于 2024-06-22 00:00:00">2024-06-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-29T09:57:21.374Z" title="更新于 2025-12-29 17:57:21">2025-12-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>从应用程序和应用程序的沟通方式来看，网络应用的架构可以分为一下集中类型：</p>
+<ol>
+<li><strong>客户-服务器模式（C&#x2F;S:client&#x2F;server）</strong></li>
+<li><strong>对等模式（P2P:Peer to Peer）</strong></li>
+<li><strong>混合体：客户-服务器和对等体系结构</strong></li>
+</ol>
+<h3 id="分布式进程通信需要解决的问题"><a href="#分布式进程通信需要解决的问题" class="headerlink" title="分布式进程通信需要解决的问题"></a>分布式进程通信需要解决的问题</h3><ol>
+<li>进程如何标识和寻址问题。怎么样标识自己和其它进程的不同，怎么样让别人找得到你。可以用<code>IP</code>和<code>port</code>来标识一个进程，这样的组合可以表示一个<strong>端节点(end point)</strong>，本质上，一对主机进程之间的通信由2个端节点构成</li>
+<li>应用进程怎么使用传输层所提供的服务。怎么样使用传输层提供的服务的形式和地点。这个问题又可以分为 2 个子问题。<ol>
+<li>从应用进程传递给传输层，需要携带什么信息？<ul>
+<li>要传输的报文(数据),也就是<code>SDU</code></li>
+<li>传给谁，也就是目标进程的<code>IP + port</code></li>
+<li>谁传的，也就是自己的应用进程标识，这样对方发来的响应才能接收到</li>
+</ul>
+</li>
+<li>用什么东西来封装传过去的信息？<code>TCP实体</code>还是<code>UDP实体</code></li>
+</ol>
+</li>
+<li>应用进程之间通过以上两个条件，可以进行报文的交换了，那么该如何定义协议实现通信。</li>
+</ol>
+<p>对于第 2 个问题，还有一个重要的知识点。应用进程之间进行通信的时候，每次从上层传输给下层一些必要信息时，是不是每次的<code>源IP 源port</code> 和 <code>目标IP 目标port</code>都是固定的，似乎只有要传输的报文是不一样的。那么，每次应用进程通过层间接口给比如<code>TCP</code>实体传送必要信息时都会有重复的信息，而且很麻烦。于是，传输层引出了新的概念，并提供了新的服务——<strong>Socket</strong>，说白了<code>Socket</code>其实就是一张表，它就跟<code>文件描述符表</code>一样，通过一个整数（索引）来定位一个结构体信息。这个结构体包含哪些信息呢，最重要的就是<code>源IP 源port</code> 和 <code>目标IP 目标port</code>，以此四元组来维护本地应用进程和目标应用进程之间的通信和连接。然后呢，应用进程可以通过传输层提供的<code>Socket API</code>在<code>Socket</code>中创建自己和目标的连接表项，<code>Socket API</code>会返回这个表项的索引值作为整数，然后应用进程在此之后就可以拿着这个整数与目标进程进行通信，就像<code>文件描述符</code>一样。一个<code>TCP Socket</code>代表的是一对应用进程之间的会话关系，具体的看看下面这张图就行了。注意上面说的都是<code>TCP</code>的<code>Socket</code>。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/00.png" alt="00"></p>
+<p>因为<code>UDP</code>是无连接的服务，所以<code>UDP</code>的<code>Socket</code>整数不代表一个会话关系，<code>UDP</code>的<code>Socket</code>只包含<code>源IP 源port</code> ，是一个二元组。所以应用程序在使用<code>UDP</code>的<code>Socket API</code>时还需要包含<code>目标IP 目标port</code>。<code>UDP</code>的<code>Socket</code>只是本地意义上的标识，仅仅代表本地的一个<code>端节点</code>。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/01.png" alt="01"></p>
+<p>应用和应用实体需要区分，实际上应用除了应用实体之外还包括界面、IO操作、内部的处理逻辑，而实体指的是需网络交互有关的，遵守协议的这部分内容。比如一个 Web 应用，除了<code>HTTP协议</code>之外还包括了<code>HTML</code>的文件解释模块，这个模块并不属于<code>HTTP</code>。实体是实现网络协议的软件模块或者硬件模块，而且是运行当中的软件模块&#x2F;硬件模块啊。</p>
+<h3 id="Web-and-HTTP"><a href="#Web-and-HTTP" class="headerlink" title="Web and HTTP"></a>Web and HTTP</h3><p><code>Web</code>是一种应用，而<code>HTTP</code>是一种支持<code>Web</code>应用的协议</p>
+<p><strong>HTTP</strong>，超文本传输协议，是跑在<code>TCP</code>协议之上的应用层协议。</p>
+<p>现在的<code>HTTP</code>有两个版本，<code>HTTP/1.0</code>和<code>HTTP/1.1</code>版本，它们都是跑在<code>TCP</code>连接上的协议。区别在于一个是非持久连接，另一个是持久连接。非持久连接在一次<code>TCP</code>之上最多只有一个对象在<code>TCP</code>连接上发送，下载多个对象则需要多次<code>TCP</code>连接，因为传送了一次后，应用程序就会发出申请断开连接的请求。持久连接则允许在一次<code>TCP</code>连接之上传输多个对象，它不会在建立连接后马上释放连接。</p>
+<p><code>HTTP/1.1</code>默认是会保持连接的，当然也可以在请求头中添加<code>Connection: close</code>，在接收到对象后直接释放连接。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/02.png" alt="02"></p>
+<p><code>HTTP</code>协议的头部中有一个<code>Content-Length</code>字段，这个字段有什么用呢，它描绘本次报文的大小。因为<code>TCP</code>协议并不维护报文的界限，假如应用程序给了传输层 2 个 15K 大小的报文，通过<code>TCP</code>传输给对方，对方可能会收到 1 个 30K 大小的报文。<code>TCP</code>不维护报文的界限，就需要<code>HTTP</code>协议自己来维护。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/03.png" alt="03"></p>
+<p><code>HTTP</code>协议是<strong>无状态协议</strong>，什么叫无状态协议呢？服务器接收到<code>HTTP请求</code>，解析报文，按要求封装<code>HTTP响应</code>，然后发回去，这样就结束了。下次收到同样的请求，还是做同样的响应，不维护、不记录客户端的状态。因为有些应用需要用到<code>HTTP</code>协议，而且有维护状态的需求，于是有了<strong>Cookie</strong>的概念。在响应中带上<code>Set-Cookie</code>字段，客户端接收到响应后就会在本地存储<code>Cookie</code>，下次再次访问相同的网站时就会带上<code>Cookie</code>，服务器端接收到请求就会根据<code>Cookie</code>在数据库中检索对应的用户信息。</p>
+<p>然后再后面引出了**Proxy(代理服务器)**的概念，这个服务器就是充当<code>Cache</code>的作用，用户访问一个网站，如果在这个服务器中刚好有这个网站的缓存，就直接返回这个缓存，不需要再次连接远端服务器（<code>Origin Server</code>），节省了时间。但是这样又会有个问题，如果远端服务器中的内容更新了怎么办，与代理服务器的内容不一致怎么办？这就给<code>HTTP</code>请求添加了新的请求方式，<strong>条件GET方法</strong>，其实和原来的格式一样，只不过有了新的头部字段：<code>If-modified-since: &lt;date&gt;</code>，用户向网站发出请求，先被代理服务器拦截，代理服务器这时会先向<code>Origin Server</code>发出这个条件请求，如果确实有更新，服务器像正常响应一样返回完整的响应报文，如果有更新，就简单返回一个<code>HTTP/1.0 304 Not  Modified</code>，这样代理服务器就知道了服务器没有更新，返回原来的缓存内容给用户。</p>
+<h3 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h3><p>这个协议需要了解的不多。要知道的是这个协议和<code>HTTP</code>协议一样，仍然需要跑在<code>TCP</code>协议之上，而且它是<strong>有状态协议</strong>，因为服务器需要维护当前通信的用户是谁，他当前处在哪个目录上等信息。</p>
+<p>此外还需要了解服务器建立连接的过程。<code>FTP</code>协议的默认端口为 <strong>21</strong></p>
+<p>首先，客户端向服务器的 21 号端口发送连接请求，通过用户认证后正常使用。客户端仍然需要通过向服务器的 21 号端口发送一些控制命令，比如上传和下载命令。假如发送的是下载命令，服务器会<strong>主动</strong>与客户端的 20 号端口建立新的连接，这个连接通道叫做<strong>数据连接</strong>专门用来传输文件。</p>
+<p>所以<code>FTP</code>协议有两个连接通道，一个是控制连接，一个是数据连接。</p>
+<p>需要注意的是，其实<code>HTTP</code>协议也可以上传文件和下载文件</p>
+<h3 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h3><p>什么是应用，比如说Web应用就是运行在服务器上的程序。</p>
+<p>浏览器软件是Web应用的用户代理，用户通过浏览器访问Web应用。ftp客户端软件是ftp应用的用户代理。软件代理用户去访问应用，软件代理用户去执行相应的协议动作。</p>
+<p>用户代理通过<strong>SMTP</strong>协议给邮件服务器发送邮件，通过<strong>POP3、IMAP、HTTP</strong>三种协议都可以从邮件服务器拉取邮件</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/04.png" alt="04"></p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>DNS</strong>，Domain Name System，域名解析系统。<code>IP</code>地址标识主机、路由器，但是它是<code>32</code>位<code>4</code>字节的整数，不方便人类记忆，所以有了<code>DNS</code>负责将用户提供的字符串域名转化为二进制的网络地址。</p>
+<p><code>DNS</code>系统需要解决的问题有以下 3 点：</p>
+<ol>
+<li>如何命名设备<ul>
+<li>要用有意义的字符串便于人类记忆的命名方式</li>
+<li>不能在一个平面上命名，容易重名。这就需要采用层次化命名</li>
+</ul>
+</li>
+<li>如何完成名字到IP地址的解析<ul>
+<li>采用分布式分层式的管理，一块区域由一个或者一层的 DNS 系统来维护和解析</li>
+</ul>
+</li>
+<li>如何维护：增加或者删除一个域，需 要在域名系统中做哪些工作</li>
+</ol>
+<p><code>DNS</code>服务运行在服务器的<code>UDP</code>的 <code>53 </code>号端口上。<code>DNS</code>是互联网的核心功能，但是它是在互联网的边缘系统的应用层上实现的，不是在互联网的核心中实现的。 </p>
+<p>需要区分一下什么是<strong>别名</strong>和<strong>规范名字</strong>。别名就是一个公司面向用户发布的域名比如说<code>www.baidu.com</code>，用户都会通过这个域名取访问百度的服务器，但是百度不可能在我国只设置一个服务器，他会在各个地区各个省份设立当地服务器，这些地方服务器都会有一个特定名字便于百度去管理，这个名字就是规范名字。</p>
+<p>用户通过百度提供的<code>www.baidu.com</code>试图访问百度服务器，浏览器将别名发送给当地的<code>DNS</code>，域名解析系统将这个别名转换为当地的百度服务器的规范名字并返回给浏览器，或者说域名解析系统中一个别名对应了多个不同的规范名字，<code>DNS</code>可以根据当时的情况选择一个合适规范名字返回个浏览器</p>
+<p>浏览器继续将这个规范名字发送给<code>DNS</code>，域名解析系统将这个规范名字转换为<code>IP</code>地址返回给浏览器。浏览器接收<code>IP</code>地址，然后就使用这个<code>IP</code>地址。</p>
+<p><strong>DNS域名结构</strong></p>
+<ul>
+<li><p>一个层面命名设备会有很多重名</p>
+</li>
+<li><p><code>DNS</code>采用层次树状结构的命名方法</p>
+</li>
+<li><p><code>Internet</code>根被划分为几百个顶级域(top level domains)</p>
+<ul>
+<li><p>通用的(generic)</p>
+<p>  <code>.com</code>，<code>.edu</code>，<code>.gov</code>，<code>.int</code>，<code>.mil</code>，<code>.net</code>，<code>.ort</code><br>  <code>.firm</code>，<code>.hsop</code>，<code>.web</code>，<code>.arts</code>，<code>.rec</code>；</p>
+</li>
+<li><p>国家的(countries)</p>
+<p>  <code>.cn</code>，<code>.us</code>，<code>.jp</code>，<code>.nl</code></p>
+</li>
+</ul>
+</li>
+<li><p>每个域下面可划分为若干子域(subdomains)</p>
+</li>
+<li><p>树枝是子域(subdomains)</p>
+</li>
+<li><p>树叶是主机(host)</p>
+</li>
+</ul>
+<p>域的划分与地理位置没有关系。同一个域下的子域可以分布在不同地理位置，同一个地理位置也可以有不同的域。域的划分是逻辑上的划分</p>
+<p><strong>权威DNS服务器</strong>，或者说权威名字服务器，用于管理一个**域(Zone)**的域名。</p>
+<p>为了方便管理，将互联网划分为一个个互不相交的<strong>区域(Zone)</strong>，每个区域都有一个名字服务器，维护着它所管辖区域的权威信息(authoritative record)。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/05.png" alt="05"></p>
+<p><strong>顶级域(TLD)服务器</strong>：负责顶级域名（如com、org、edu和cn、uk、jp等)，由一些公司负责维护这些顶级域名服务器。比如 NetWork solutions公司维护<code>com TLD服务器</code>、Educause公司维护<code>edu TLD服务器</code>。</p>
+<p>那么<code>DNS</code>服务器里存储的都是些什么呢？<code>DNS</code>数据库中存储的一条记录叫做<strong>资源记录(Resource Record)</strong>，这个记录有以下几个字段：</p>
+<ul>
+<li>DomainName：域名</li>
+<li>TTL：Time to Live，生存时间。如果时间无限大说明是权威记录，如果时间小说明是缓冲记录，一般是2天</li>
+<li>Class：记录的类别，如果是互联网类型，则值为 IN</li>
+<li>Value：值，就是DomainName所映射的值</li>
+<li>Type：类型，就是关于DomainName到Value的映射关系，其实表明了Value具体的含义是什么</li>
+</ul>
+<p>关于<code>TTL</code>的设置说明一下。本地有一个权威名字服务器，比如说科大的名字服务器，它如果存储的是科大自己本地的一些主机域名所对应的IP，那么这条记录就是永久的。如果某个用户访问了科大外的服务器，比如说交大的服务器，科大的名字服务器作为代理去询问交大服务器的<code>IP</code>，得到了之后返回给用户，并将此时交大服务器的域名和<code>IP</code>做一个存储以便下一次访问时的返回，但是这是一个缓存，一般 2 天后就会自动删除。为什么要删除呢，一方面是为了节省空间，另一方面如果交大服务器那边的IP地址改了，或者域名改了，这样原来的留着也没意义，还不如删了以便下次更新。</p>
+<p>还有<code>Type</code>的说明。如果<code>Type = A(Address)</code>，那么这条记录就是关于一个主机的**确定(specific)**域名到它<code>IP</code>地址的映射；如果<code>Type = CNAME</code>，那么这条记录就是关于一个别名(公布给用户的名字)到服务器的规范名字（或者说确定域名）的映射；如果<code>Type = NS</code>，那么这条记录就是关于一个域名到该域名服务器的域名（其实就是DNS服务器的域名），其实感觉跟<code>CNAME</code>也差不多，不过应该是为了区分<code>Value</code>服务器的类型吧。还有<code>Type = MX</code>跟上面的解释也差不多。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/06.png" alt="06"></p>
+<p>比如说<code>edu</code>域名服务器 记录 <code>yale.edu</code>域名的有关信息，它需要起码 2 条记录，一条映射是<code>yale.edu</code>到<code>yale.edu</code>域名服务器的确定域名，这条记录的<code>Type = NS</code>；一条是这个确定域名到<code>IP</code>地址的映射，这条记录的<code>Type = A</code></p>
+<p>同样的<code>yale.edu</code>域名服务器记录<code>cs.yale.edu</code>域名的信息也是向上面一样。</p>
+<p>一台主机想要上网一般需要 4 个信息：<code>IP</code>地址、子网掩码、<code>Local Name Server</code>本地域名解析服务器、<code>Default Gateway</code>发送到外网的网关地址。这些信息要么手动配要么自动配。</p>
+<p>一般来说，我们的主机想要获取一个域名对应的<code>IP</code>地址，都会优先向本地的域名解析服务器发送请求，如果本地的域名解析系统有这条记录则直接返回，如果没有就需要进入下一个流程。这个流程有两种方式，不过大抵相同。</p>
+<p>全球有 13 个根服务器，这些服务器记录了顶级域名(像com、edu这一类)有关的映射。</p>
+<p>首先是递归查询，这种方式压力全在根<code>DNS</code>服务器。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/07.png" alt="07"></p>
+<p>因为根服务器的压力太大，就有了迭代查询方式，这样根服务器只需要简单返回一个响应就行了。压力全在本地DNS服务器上。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/08.png" alt="08"></p>
+<p>然后还要知道的是，<code>DNS</code>的报文格式，请求报文和响应报文的格式是一样的，通过<code>flag</code>来区分是请求报文还是响应报文，还有一个<code>ID</code>头部，用来区分是哪台主机请求的查询服务，到时候好返回结果。还有用<code>flag</code>字段来表明是采用递归方式查询还是迭代方式查询。</p>
+<p>还有关于第三个问题，如何维护记录的问题。新增一条记录，如果是关于一个子域的，那么需要加两条记录一条是从子域名到子域域名服务器的域名的映射，还有一条是子域域名服务器的域名到其<code>IP</code>地址的映射；如果是关于一台主机的话，直接就是主机域名到主机<code>IP</code>地址的映射。</p>
+<p>为什么要将域名和域名服务器的域名区分开来呢？首先，域名是公布给用户使用的，它应该是便于记忆且唯一的，而域名服务器需要公司自己去管理，它可能有很多台，遍布在很多地方，所以需要一个自己的特定域名作为编号方便管理吧。而且，一个DNS中的有关同一子域名的记录可能会有多个子域域名服务器的映射，DNS可以根据当时的网络情况进行选择子域的域名服务器。</p>
+<p>或者说，域名就是一个逻辑上的东西，DNS服务器其实也是一台服务器，也是一台主机呀，作为这个逻辑域名的一部分自然也需要一个物理域名加以区分。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/09.png" alt="09"></p>
+<h2 id="P2P应用"><a href="#P2P应用" class="headerlink" title="P2P应用"></a>P2P应用</h2><p>前面我们提到，网络架构分为 <code>C/S</code>架构 和 <code>P2P</code>架构，下面我们重点介绍<code>P2P</code>架构，在这之前简单讲一下<code>C/S</code>式模式的文件分发时间作为对照。</p>
+<p>假设要传输文件的大小为 <code>F</code>，服务器的上载带宽为 U<del>s</del>，有 N 个客户端需要下载文件，每个客户端的下载带宽为 d<del>i</del> 。<br>那么我们可以得出将所有文件分发给 N 个服务器的耗时为 D<del>C-S</del> &gt;&#x3D; max{ NF &#x2F; U<del>s</del>，F &#x2F; d<del>min</del>}，就是从服务器和客户端选个发送速度最慢的。这样来看，如果客户端数量很少，这个传输时间还是可以接受的，但是客户端数量一旦上来了，服务器所有承受的压力从图上来看是线性的增加。传播时间是不可控的，当下载量上来后，服务器的上载带宽就成了瓶颈</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/10.png" alt="10"></p>
+<p>如果采用<code>P2P</code>架构，这个文件的传输时间就会变成下图这样。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/11.png" alt="11"></p>
+<p>假设，这个时候<code>P2P</code>的架构已经搭建好了，当 N 个客户端请求文件时，服务器的荷载将会分配个其它客户端承担，这样原来服务器的上载时间就会降下来，从而不再成为瓶颈，慢慢的瓶颈就会变成客户端自己的下载带宽。</p>
+<p><code>P2P</code>架构模式也有分类，首先大致分为 <strong>非结构化P2P</strong> 和 <strong>DHT(分布式散列表)结构化P2P</strong>。<code>DHT结构化P2P</code>属于高级计算机网络的知识，这里老师没有过多探讨。大致的分类区别就是，非结构化的P2P，客户端之间的连接(overlay)是没有规律或者说规则可寻的，能碰上连接就连接，想连就连，所有客户端形成的逻辑网络是混乱的。反之，结构化的P2P中的客户端之间的<strong>overlay</strong>组成的网络可以是一个环、一个树这样的数据结构，是有规律的。</p>
+<p>非结构化的P2P具体分为以下几类，老师依据以下几类举出了几个应用实例来讲解。</p>
+<h3 id="集中式目录"><a href="#集中式目录" class="headerlink" title="集中式目录"></a>集中式目录</h3><p>最初的 <strong>Napster</strong> 就是用这样的架构设计的。服务器并直接参与文件的上传和下载，也就是说服务器不会存储文件，它只维护一个目录表，这个表记录些什么呢？比如用户是否在线，用户客户端的IP地址，以及用户客户端都存储了些什么文件。这就需要客户端做出一些配合，比如每个用户在客户端上线时就会向服务器发送自己的IP地址，和自己都存储哪些文件。然后如果某个用户需要什么文件，他就会向服务器发送自己需要什么文件，服务器检索一下哪个客户端有这个文件，然后发送这个客户端的IP地址返回给请求方。然后这两个客户端之间建立连接，在它们之间收发文件。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/12.png" alt="12"></p>
+<p>当然，这种模式的弊端也非常大，整个网络的核心就是这个集中式目录服务器。<strong>Napster</strong> 在校园网里做 mp3 公益服务，侵犯了版权方的利益，对他做的惩罚就是拔掉了服务器的插头。至此整个 Napster 的网络也就宕机了。</p>
+<h3 id="完全分布式"><a href="#完全分布式" class="headerlink" title="完全分布式"></a>完全分布式</h3><p><strong>Gnutella</strong> 就是这样一一个完全分布式的应用，没有中间服务器提供服务，网络完全由客户端构成。</p>
+<p>假设这个网络已经构建成了。那么大致的结构是张这个样子的。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/13.png" alt="13"></p>
+<p>节点与节点之间构成“邻居”关系。如果一个客户端需要下载某个文件，它是如何实现的呢？假设请求方为 X，它有很多邻居 Y</p>
+<ol>
+<li>对等方X必须首先发现某些已经在覆盖网络中的其他对 等方：使用可用对等方列表 自己维持一张对等方列表（经常开机的对等方的IP） 联系维持列表的Gnutella站点 </li>
+<li>X接着试图与该列表上的对等方建立TCP连接，直到与 某个对等方Y建立连接 </li>
+<li>X向Y发送一个Ping报文，Y转发该Ping报文 </li>
+<li>所有收到Ping报文的对等方以Pong报文响应 IP地址、共享文件的数量及总字节数 </li>
+<li>X收到许多Pong报文，然后它能建立其他TCP连接</li>
+</ol>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/14.png" alt="14"></p>
+<p>这种查询方式容易造成<strong>网络泛洪</strong>，造成网络资源的浪费。限制这种网络泛洪的方式也很简单，每个报文设置一个<code>TTL</code>就行了</p>
+<p>那么 Gnutella 网络是如何建立起来的呢。首先，用户在安装客户端软件的时候，会有一个<strong>配置文件</strong>，这个配置文件里会有一些IP地址，关于这些IP地址老师讲的也不是很清晰，我大概猜测有两种可能，第一种是这个IP地址是经常活跃的一些用户，作为常驻用户，新用户通过这些常驻用户来加入网络，并通过它们的<code>ping pong</code>来和其它节点建立<code>overlay</code>；第二种这个IP地址可能是与Gnutella无关的服务器，用户通过这些向Gnutella无关的服务器发送<code>ping</code>，由它们作为跳板向其它地方转发，而当有Gnutella运行的客户端接收到这个<code>ping</code>后就会响应<code>pong</code>，由此通过第三者的方法建立<code>overlay</code>的方法。不过老师一直说”死党”什么的，我觉得第二种的可能性会高一点。</p>
+<h3 id="混合体"><a href="#混合体" class="headerlink" title="混合体"></a>混合体</h3><p>就是将上述两种方式结合起来的P2P架构。这种方式将节点分为大节点和小节点。其中小节点和大节点之间的关系就像第一种集中式目录的关系一样，大节点存储目录表，在同一组的小节点之前收发文件；而大节点和大节点之间的关系就像第二种一样是完全分布式的，如果同一组的小节点没有想要的资源，通过大节点进行泛洪查询向其它大节点询问其组有没有我想要的资源，然后两个小节点之间跨组进行文件传输（应该是这样。</p>
+<p><strong>KaZaA</strong>就是这样的一个应用</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/15.png" alt="15"></p>
+<p>此外，老师还讲述了在这种架构下文件的查询方式。大节点建立一个关于文件的表格，其中主要包括以下字段：文件、文件描述信息、由文件字节序列得出的32位Hash值。这个Hash值就像文件的唯一ID一样。比如当一个小节点想要查询一首歌时，它向大节点发送这首歌的信息比如歌手、歌曲类别等等，大节点会根据这个模糊的描述信息将符合描述信息的所有文件的Hash值返回给小节点，小节点再细细的选择一个，当它决定了要具体的哪首歌后，就返回这个Hash值，Hash值作为文件的唯一标识符，当然也能唯一定位一首歌了。然后返回其它拥有这首歌的小节点的IP地址，让它们自己去通信。</p>
+<h2 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h2><p>其实关于<strong>CDN</strong>本身的内容其实并不复杂，不过老师以流媒体为例讲述了CDN工作的原理。</p>
+<p><strong>CDN</strong>，Content Distribution Networks，内容分发网络。它作为和<code>IPS</code>和<code>ICS</code>差不多的存在，作为现代网络不可少的网络组成部分，有着和它们同样不小的地位。同样有很多公司做<code>CDN</code>向<code>ICS</code>提供服务。</p>
+<p>在这之前先讲述一下流媒体在网络中是如何工作的。</p>
+<p><strong>DASH</strong>，Dynamic Adaptive Streaming over HTTP，动态自适应流化 over HTTP技术。这个具体是什么呢。我们在浏览网页视频的时候，视频从服务器发送过来并不是一整包发过来的，而是将视频文件分成一块一块的发送过来。而整个视频文件其实有很多不同画质的版本。浏览器申请视频资源时就是在这些不同画质的不同切片之间根据当时的网络情况进行跳跃的。至于视频被分成了几片，每片都放在什么地方，这些东西都存储在了一个叫做<strong>manifest</strong>的告知文件当中，浏览器一开始请求视频时就会收到这个文件，然后根据这个文件去请求视频。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter2/16.png" alt="16"></p>
+<p>CDN 其实就是作为一个服务器的拷贝，能够让不同地区用户访问离自己比较近的服务器从而得到比较快的响应。而像流媒体这样的公司就需要提前将这些不同视频的切片放到CDN服务器上。到时候浏览器想要获取视频资源切片时有两种方法。第一种是向源服务器发送请求，源服务器的权威域名服务器会返回一个CDN域名作为重定向，这个域名经过CDN的权威域名服务器解析返回一个离用户最近的CDN主机IP地址；第二种就是浏览器自己根据需要，从<strong>manifest</strong>告知文件中取得各个切片所在的CDN服务器的IP地址，发送请求。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="http://kyzenzu.github.io">kyzenzu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/">http://example.com/2024/06/22/【中科大计算机网络】应用层/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">星の夜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post-share"><div class="social-share" data-image="/img/cover/02.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2024/07/10/gcc%E5%92%8Cg++%E7%9A%84%E5%8C%BA%E5%88%AB/" title="gcc和g++的区别"><img class="cover" src="/img/loading.gif" data-original="/img/cover/10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">gcc和g++的区别</div></div></div></a><a class="pagination-related  no-desc" href="/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/" title="【中科大计算机网络】概述"><img class="cover" src="/img/loading.gif" data-original="/img/cover/04.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【中科大计算机网络】概述</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程"><img class="cover" src="/img/loading.gif" data-original="/img/cover/12.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-01</div><div class="info-item-2">Socket编程</div></div></div></a><a class="pagination-related no-desc" href="/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/" title="【中科大计算机网络】概述"><img class="cover" src="/img/loading.gif" data-original="/img/cover/04.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-20</div><div class="info-item-2">【中科大计算机网络】概述</div></div></div></a><a class="pagination-related no-desc" href="/2024/07/21/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AF%87/" title="【中科大计算机网络】网络安全"><img class="cover" src="/img/loading.gif" data-original="/img/cover/07.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-21</div><div class="info-item-2">【中科大计算机网络】网络安全</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kyzenzu</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kyzenzu"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">没有最新通知</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">分布式进程通信需要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-and-HTTP"><span class="toc-number">2.</span> <span class="toc-text">Web and HTTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FTP"><span class="toc-number">3.</span> <span class="toc-text">FTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Email"><span class="toc-number">4.</span> <span class="toc-text">Email</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS"><span class="toc-number">5.</span> <span class="toc-text">DNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P2P%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">P2P应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E7%9B%AE%E5%BD%95"><span class="toc-number">6.1.</span> <span class="toc-text">集中式目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">6.2.</span> <span class="toc-text">完全分布式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E4%BD%93"><span class="toc-number">6.3.</span> <span class="toc-text">混合体</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN"><span class="toc-number">7.</span> <span class="toc-text">CDN</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统"><img src="/img/loading.gif" data-original="/img/cover/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈工大操作系统"/></a><div class="content"><a class="title" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统">哈工大操作系统</a><time datetime="2025-12-28T16:00:00.000Z" title="发表于 2025-12-29 00:00:00">2025-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret"><img src="/img/loading.gif" data-original="/img/cover/08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="call和leave和ret"/></a><div class="content"><a class="title" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret">call和leave和ret</a><time datetime="2025-10-01T16:00:00.000Z" title="发表于 2025-10-02 00:00:00">2025-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式"><img src="/img/loading.gif" data-original="/img/cover/19.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux管理打开文件的方式"/></a><div class="content"><a class="title" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式">Linux管理打开文件的方式</a><time datetime="2025-07-31T16:00:00.000Z" title="发表于 2025-08-01 00:00:00">2025-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论"><img src="/img/loading.gif" data-original="/img/cover/18.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库系统概论"/></a><div class="content"><a class="title" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论">数据库系统概论</a><time datetime="2024-12-28T16:00:00.000Z" title="发表于 2024-12-29 00:00:00">2024-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程"><img src="/img/loading.gif" data-original="/img/cover/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Socket编程"/></a><div class="content"><a class="title" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程">Socket编程</a><time datetime="2024-11-30T16:00:00.000Z" title="发表于 2024-12-01 00:00:00">2024-12-01</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By kyzenzu</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="/"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body></html>

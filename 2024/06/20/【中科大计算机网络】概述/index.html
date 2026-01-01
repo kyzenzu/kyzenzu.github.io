@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【中科大计算机网络】概述 | 星の夜</title><meta name="author" content="kyzenzu"><meta name="copyright" content="kyzenzu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="什么是Internet互联网是什么？以TCP&#x2F;IP为主要构成的一簇协议，由这些协议构成的网络、世界上使用人数最大的网络，叫做互联网（Internet）。但是同样以TCP&#x2F;IP为主要协议进行工作的网络，个人用的、公司用的不接入互联网的网络叫做内部网（intranet） 协议：协议是对等层实体在通信过程当中应该遵守的规则的集合，是一个标准，是一个规范。这个规则包含很多，包括：语法、语义、时序和动作等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【中科大计算机网络】概述">
+<meta property="og:url" content="http://example.com/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="星の夜">
+<meta property="og:description" content="什么是Internet互联网是什么？以TCP&#x2F;IP为主要构成的一簇协议，由这些协议构成的网络、世界上使用人数最大的网络，叫做互联网（Internet）。但是同样以TCP&#x2F;IP为主要协议进行工作的网络，个人用的、公司用的不接入互联网的网络叫做内部网（intranet） 协议：协议是对等层实体在通信过程当中应该遵守的规则的集合，是一个标准，是一个规范。这个规则包含很多，包括：语法、语义、时序和动作等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/04.jpg">
+<meta property="article:published_time" content="2024-06-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-29T09:57:01.227Z">
+<meta property="article:author" content="kyzenzu">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover/04.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【中科大计算机网络】概述",
+  "url": "http://example.com/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/",
+  "image": "http://example.com/img/cover/04.jpg",
+  "datePublished": "2024-06-19T16:00:00.000Z",
+  "dateModified": "2025-12-29T09:57:01.227Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kyzenzu",
+      "url": "http://kyzenzu.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'FancyBox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【中科大计算机网络】概述',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/background/01.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/04.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/loading.gif" data-original="/img/navlogo.png" alt="Logo"><span class="site-name">星の夜</span></a><a class="nav-page-title" href="/"><span class="site-name">【中科大计算机网络】概述</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【中科大计算机网络】概述</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-19T16:00:00.000Z" title="发表于 2024-06-20 00:00:00">2024-06-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-29T09:57:01.227Z" title="更新于 2025-12-29 17:57:01">2025-12-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="什么是Internet"><a href="#什么是Internet" class="headerlink" title="什么是Internet"></a>什么是Internet</h2><p>互联网是什么？以<code>TCP/IP</code>为主要构成的一簇协议，由这些协议构成的网络、世界上使用人数最大的网络，叫做<strong>互联网（Internet）</strong>。但是同样以<code>TCP/IP</code>为主要协议进行工作的网络，个人用的、公司用的不接入互联网的网络叫做<strong>内部网（intranet）</strong></p>
+<p>协议：协议是对等层实体在通信过程当中应该遵守的<strong>规则的集合</strong>，是一个标准，是一个规范。<br>这个规则包含很多，包括：语法、语义、时序和动作等。</p>
+<p>协议 定义了在两个或多 个通信实体之间交换的 报文格式和次序，以及 在报文传输和&#x2F;或接收或 其他事件方面所采取的 动作</p>
+<p>互联网由分布式的应用程序（进程）及为这些应用程序提供通信服务的基础设施。基础设施包括什么，包括了主机当中应用层以下的所有的运行中的协议实体，包括了目标主机当中的应用层以下的应用实体，还包括了应用通信过程中所必要的网络。分布式的应用是网络存在的理由，基础设施为分布式的应用提供通信服务</p>
+<p>网络结构组成如下有：核心、接入和边缘。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/00.png" alt="00"></p>
+<h2 id="核心-Core-的工作方式"><a href="#核心-Core-的工作方式" class="headerlink" title="核心(Core)的工作方式"></a>核心(Core)的工作方式</h2><h3 id="电路交换-线路交换"><a href="#电路交换-线路交换" class="headerlink" title="电路交换 &#x2F; 线路交换"></a>电路交换 &#x2F; 线路交换</h3><p>主机和主机之间会一直占用通信链路的资源，不管两者之间有没有在通信。这种通信方式保证了通信双方数据交换的稳定性。</p>
+<p>为了能够提供多组主机之间的通信，电路交换有了<code>pieces</code>的概念，将链路带宽分成多分交给每组主机用，分片的方式有 频分(FDM)根据频率分带宽、时分(TDM)根据时间周期内的时间片分、码分、波分等等。</p>
+<p>因为主机之间不管有没有在通信都会占用链路资源，所以电路交换的方式所能提供的用户是有限的，比如带宽为 1Mbps，每个用户占用链路带宽为 1Bbps，那么这段链路撑死也就支持 10 个用户，再多就得切断一组用户的通信。</p>
+<p>而分组交换因为有<strong>存储</strong>的概念，所以还能提供给更多的用户在用户突发网络请求的情况下。</p>
+<h3 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h3><p>主机和主机之间的通信不再使用通信链路的<code>pieces</code>，而是使用它带宽的全部。</p>
+<p>主机和主机之间的通信数据被分成一个个单位，这个单位叫 <strong>分组</strong> 或者 <strong>包(packet)</strong>，包在越过每个通信链路的时候使用带宽的全部，数据在传输过程中每一个节点时，以分组为单位进行<strong>存储-转发</strong>。最终由源主机发送到目标主机。</p>
+<p>为什么在传输过程中的节点需要对分组进行先存储再转发呢？不进行存储，遇到一个比特就转发一个比特不行吗？如果用这种方式的话，如果传输的数据非常大，比如说 10 个 G，这样的话这一组的数据交换会持续很长的一段时间，并且一直占用这段链路，其它主机无法用这段链路进行通信。这就造成很大的问题。</p>
+<p>边缘系统该如何接入核心呢？如果重新设计接入链路，每家每户都接一个成本是巨大的。于是运营商就在电话线上做文章。以前电话线通过电话线是以 4KHz 进行传播通信的，为了用已有的电话线进行进行上网就有了<strong>调制解调器</strong>，俗称猫(modem的谐音)，将数字信号调制成不同频率不同波长比如说 2KHz 到 3KHz，然后发送到链路上。核心那边的接收端也是通过猫来区分传过来的信号的是要上网还是打电话。但是这样的问题是，打电话时不能上网，上网时不能打电话，因为在做一个行为的时候链路总是被占用的。所以这种方式被淘汰了。</p>
+<h3 id="虚拟电路交换技术"><a href="#虚拟电路交换技术" class="headerlink" title="虚拟电路交换技术"></a>虚拟电路交换技术</h3><p>由于分组太多，不同的分组又会走不同的线路，所以会发生很多不可预知的数据丢失的情况。为了解决这个问题，分组交换技术吸取电路交换的有点，两个主机交换数据前会先进行沟通采用哪条线路，保证它们之间的线路是稳定安全的，之后在分组(packet)上打上这条线路的记号，然后所有的信息交换都在这个线路上进行。但是这种方式无疑是会增加开销的，而且是增加<strong>核心部分</strong>的开销，事实上<strong>核心部分</strong>要负责的内容应该仅仅只是保证数据的快速传输和快速的选择路线，而不是解决主机提出来的这种新要求。所以现代并没有采用虚拟电路交换技术，数据包丢失的问题交给主机自己去解决，主机有强大的算力完全有能力去解决。</p>
+<h2 id="Internet-和-ISP"><a href="#Internet-和-ISP" class="headerlink" title="Internet 和 ISP"></a>Internet 和 ISP</h2><ul>
+<li>端系统(个人电脑、服务器、移动手机等)通过**接入ISP(Internet Service Providers)**连接到互联网。<ul>
+<li>接入ISP有很多，比如公司的、大学的ISP</li>
+</ul>
+</li>
+<li>接入ISP必须是互联的，这样任何两个端系统才可以相互发送分组到对方</li>
+</ul>
+<h3 id="global-ISP"><a href="#global-ISP" class="headerlink" title="global ISP"></a>global ISP</h3><p>在全球范围部署路由器用链路连在一起，然后让端系统通过 access net 连接到上述组成的 global ISP 实现全球范围内数据的收和发。</p>
+<p>因为这个东西的利益是巨大的，就会有很多厂商构建 global ISP。不同厂商会有自己的一批客户，为了让不同厂商的客户实现互联，厂商之间就会进行合作，将各自的 global ISP中间搭一条线路进行连接，还有一种方式就是搭建一个 **IXP(Internet exchange poin)**互联网交换点，在这个交换点中完成流量的交换。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/01.png" alt="01"></p>
+<h3 id="regional-ISP"><a href="#regional-ISP" class="headerlink" title="regional ISP"></a>regional ISP</h3><p>前面这些大头将全球范围的ISP搭建好骨干网后就需要更一些小厂商给小区域比如说省市、城镇做更精细的划分。做到业务上的细分。</p>
+<h3 id="ICP"><a href="#ICP" class="headerlink" title="ICP"></a>ICP</h3><p><strong>Internet Content Provider</strong>，互联网内容提供商，比如说百度、谷歌提供业务。这些厂商同样需要 ISP 接入互联网，这就需要交钱了，因为这些厂商的用户量是巨大的，这样造成的成本也是巨大的。为了解决这一问题，他们就会在全球各个地方建造自己的机房，叫做 <strong>DC(Data Center)</strong>，然后自己部署自己的专用的网络连接这些 DC，自己拉光缆将 DC 连接起来。</p>
+<p>这些 DC 部署的位置也是有讲究的，都是靠近核心ISP比较近的地方，这样用户通过 ISP 连接 DC 的速度也会快一点。如果用户申请的服务在 DC1 中没有，它也能够通过自己的专有网络快速从其它 DC 中找到，然后拉取过来发给客户。此外 DC机房还需要建在温度低，散热快，且事故发生比较少的地方，比如说贵州就有很多的机房，北极也有机房、海底也有机房。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/02.png" alt="02"></p>
+<p>ISP 其实是分层的 ISP，端系统接入最低层的 ISP，有需要时低层 ISP 会向高层 ISP 发送数据，让远在两端的主机实现通信。</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/03.png" alt="03"></p>
+<p>网络非常复杂的功能分解为若干功能明确的层次，每一层实现一个或一组功能</p>
+<p>上层的模块可以通过接口使用本层内部的一些功能，这些功能的子集叫做<strong>服务</strong>，服务是功能的一部分</p>
+<p>本层实体借助下层所提供的<strong>服务</strong>，来跟对等层实体交换<strong>PDU</strong>，再经过内部处理，实现更复杂、更新的<strong>功能</strong>，通过层间的<strong>接口</strong>再向上层提供更好的<strong>服务</strong>。比如操作系统提供的<code>Socket API</code>，就是传输层向应用层提供的服务</p>
+<p>本层协议实体在交互的过程当中，应该遵守的规则的集合叫做<strong>协议</strong>，协议的<strong>目的</strong>是向上层提供更好的服务，协议<strong>怎么实现</strong>？通过层间的接口访问下层所提供的服务来实现。</p>
+<p><strong>服务提供者</strong>向<strong>服务用户</strong>提供服务，具体在哪里提供服务，在层间界面上**服务访问点(SAP)**提供服务，用来区分不同的服务用户。同一个服务提供者可能需要为多个上层用户提供服务，比如 <code>TCP实体</code> 可能需要向 <code>telnet应用</code>、<code>http应用</code>、<code>ftp应用</code>等同时提供服务，这时候就需要 <code>SAP</code> 来区分</p>
+<p>服务提供者通过什么样的形式为服务用户提供用户，服务用户通过什么形式来使用服务提供者提供的服务。这个形式称作——<strong>原语(primitive)</strong>。比如说<code>Socket API</code>中的函数就叫做原语，原语就是提供服务的形式，服务用户到底采用服务提供者的什么服务，服务用户通过提供者提供的原语来告诉提供者我要用什么样的服务。</p>
+<p>下层服务为两个上层应用提供服务进行通信之前，要有一个握手的过程，为之后的通信做好准备，这种类型的服务称作为<strong>面向连接的服务</strong>。反之通信之前没有握手的过程，就是<strong>无连接的服务</strong>。</p>
+<p>上层传过来的 <strong>SDU(服务数据单元)</strong> 再加上本层的一些控制信息（头部），形成本层的 <strong>PDU(协议数据单元)</strong></p>
+<p>物理层接收上一层传过来的比特，转化为光电信号，发送给目标；目标物理层再把这个信号转回比特。</p>
+<p>在目标<strong>链路层</strong>，将物理层传过来的比特进行划分，分装成<strong>帧</strong>。链路层在物理层提供的服务的基础之上，相邻两**点(Point)**进行传输以帧为单位的数据，是 <strong>P2P</strong> 的关系</p>
+<p>网络层在链路层提供的<strong>点到点</strong>的数据传输的基础之上，提供以<strong>分组</strong>为单位的<strong>端到端</strong>的数据传输的服务。实现主机到主机的数据传输。</p>
+<p><strong>传输层</strong>在主机到主机传输的基础之上，完成进程到进程的区分；此外，网络层提供的服务是不可靠的，传输层还需要自己为上层应用提供可靠的传输服务</p>
+<p><strong>应用层</strong>在传输层提供的服务的基础之上，完成<strong>应用报文</strong>和应用报文之间的交换</p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/04.png" alt="04"></p>
+<p><img src="/img/loading.gif" data-original="/../posts_img/%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/chapter1/05.png" alt="05"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="http://kyzenzu.github.io">kyzenzu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/06/20/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%A6%82%E8%BF%B0/">http://example.com/2024/06/20/【中科大计算机网络】概述/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">星の夜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post-share"><div class="social-share" data-image="/img/cover/04.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/" title="【中科大计算机网络】应用层"><img class="cover" src="/img/loading.gif" data-original="/img/cover/02.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【中科大计算机网络】应用层</div></div></div></a><a class="pagination-related  no-desc" href="/2024/05/26/%E5%A6%82%E4%BD%95%E5%9C%A8linux0.11%E4%B8%8A%E6%B7%BB%E5%8A%A0%E5%86%85%E6%A0%B8%E5%87%BD%E6%95%B0/" title="如何在linux0.11上添加内核函数"><img class="cover" src="/img/loading.gif" data-original="/img/cover/08.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">如何在linux0.11上添加内核函数</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/2024/07/21/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AF%87/" title="【中科大计算机网络】网络安全"><img class="cover" src="/img/loading.gif" data-original="/img/cover/07.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-21</div><div class="info-item-2">【中科大计算机网络】网络安全</div></div></div></a><a class="pagination-related no-desc" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程"><img class="cover" src="/img/loading.gif" data-original="/img/cover/12.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-01</div><div class="info-item-2">Socket编程</div></div></div></a><a class="pagination-related no-desc" href="/2024/06/22/%E3%80%90%E4%B8%AD%E7%A7%91%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/" title="【中科大计算机网络】应用层"><img class="cover" src="/img/loading.gif" data-original="/img/cover/02.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-22</div><div class="info-item-2">【中科大计算机网络】应用层</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kyzenzu</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kyzenzu"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">没有最新通知</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFInternet"><span class="toc-number">1.</span> <span class="toc-text">什么是Internet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83-Core-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">核心(Core)的工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2-%E7%BA%BF%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">电路交换 &#x2F; 线路交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">分组交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF"><span class="toc-number">2.3.</span> <span class="toc-text">虚拟电路交换技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Internet-%E5%92%8C-ISP"><span class="toc-number">3.</span> <span class="toc-text">Internet 和 ISP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#global-ISP"><span class="toc-number">3.1.</span> <span class="toc-text">global ISP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regional-ISP"><span class="toc-number">3.2.</span> <span class="toc-text">regional ISP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICP"><span class="toc-number">3.3.</span> <span class="toc-text">ICP</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统"><img src="/img/loading.gif" data-original="/img/cover/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈工大操作系统"/></a><div class="content"><a class="title" href="/2025/12/29/%E5%93%88%E5%B7%A5%E5%A4%A7%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="哈工大操作系统">哈工大操作系统</a><time datetime="2025-12-28T16:00:00.000Z" title="发表于 2025-12-29 00:00:00">2025-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret"><img src="/img/loading.gif" data-original="/img/cover/08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="call和leave和ret"/></a><div class="content"><a class="title" href="/2025/10/02/call%E5%92%8Cleave%E5%92%8Cret/" title="call和leave和ret">call和leave和ret</a><time datetime="2025-10-01T16:00:00.000Z" title="发表于 2025-10-02 00:00:00">2025-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式"><img src="/img/loading.gif" data-original="/img/cover/19.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux管理打开文件的方式"/></a><div class="content"><a class="title" href="/2025/08/01/Linux%E7%AE%A1%E7%90%86%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Linux管理打开文件的方式">Linux管理打开文件的方式</a><time datetime="2025-07-31T16:00:00.000Z" title="发表于 2025-08-01 00:00:00">2025-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论"><img src="/img/loading.gif" data-original="/img/cover/18.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库系统概论"/></a><div class="content"><a class="title" href="/2024/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/" title="数据库系统概论">数据库系统概论</a><time datetime="2024-12-28T16:00:00.000Z" title="发表于 2024-12-29 00:00:00">2024-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程"><img src="/img/loading.gif" data-original="/img/cover/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Socket编程"/></a><div class="content"><a class="title" href="/2024/12/01/Socket%E7%BC%96%E7%A8%8B/" title="Socket编程">Socket编程</a><time datetime="2024-11-30T16:00:00.000Z" title="发表于 2024-12-01 00:00:00">2024-12-01</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By kyzenzu</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><script src="/js/tw_cn.js?v=5.5.3"></script><script src="/"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body></html>
